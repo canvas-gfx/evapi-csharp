@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+// TODO: Implement automatic JSON serialization.
+
 namespace evapi
 {
     using Dict = Dictionary<string, object>;
