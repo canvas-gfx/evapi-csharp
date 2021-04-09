@@ -99,7 +99,7 @@ namespace evapi
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "debug.log"},
+                {"cmd", "file.open"},
                 {
                     "args", new Dict()
                     {
@@ -122,7 +122,7 @@ namespace evapi
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "debug.log"},
+                {"cmd", "file.save"},
                 {
                     "args", new Dict()
                     {
@@ -144,7 +144,7 @@ namespace evapi
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "debug.log"},
+                {"cmd", "file.save_as"},
                 {
                     "args", new Dict()
                     {
@@ -167,7 +167,7 @@ namespace evapi
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "debug.log"},
+                {"cmd", "file.export"},
                 {
                     "args", new Dict()
                     {
@@ -245,7 +245,7 @@ namespace evapi
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "debug.log"},
+                {"cmd", "insert.3d_model"},
                 {"args", args}
             };
 
