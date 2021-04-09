@@ -16,7 +16,7 @@ namespace evapi
 
         private HttpClient Sess { get; set; }
 
-        public EvApi(string port1, string host = "http://localhost", int port = 0)
+        public EvApi(string host = "http://localhost", int port = 45000)
         {
             Host = host;
             Port = port;
