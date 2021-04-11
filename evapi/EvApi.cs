@@ -114,7 +114,7 @@ namespace evapi
 
             EvResponse evresp = await GetResp(resp);
             Dict output = evresp.GetOutput();
-            return new EvDocument((Dict) output["doc"]);
+            return new EvDocument(Convert.ToDictionary(output["doc"]));
         }
 
         public async Task<string> FileSave()

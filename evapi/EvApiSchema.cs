@@ -101,7 +101,7 @@ namespace evapi
         public Dict GetOutput()
         {
             if (_data.ContainsKey("output"))
-                return (Dict) _data["output"];
+                return Convert.ToDictionary(_data["output"]);
             return new Dict();
         }
 
