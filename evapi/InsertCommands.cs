@@ -69,7 +69,7 @@ namespace evapi
 
             return new EvObject(new Dict()
             {
-                {"id", (int) output["obj"]}
+                {"id", (string) output["obj"]}
             });
         }
     }

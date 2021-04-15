@@ -113,21 +113,6 @@ namespace evapi
         }
     }
 
-    public class EvDocument
-    {
-        private readonly Dict _data;
-
-        public EvDocument(Dict data)
-        {
-            _data = data;
-        }
-
-        public int GetId()
-        {
-            return (int) _data["id"];
-        }
-    }
-
     public class EvPoint
     {
         public int X { get; set; }

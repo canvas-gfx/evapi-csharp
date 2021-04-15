@@ -29,7 +29,8 @@ namespace evapi
             };
 
             Dict output = await conn_.IssueCommand(js);
-            return new EvDocument(Convert.ToDictionary(output["doc"]));
+            string id = (string) Convert.ToDictionary(output["doc"])["id"];
+            return new EvDocument(id, conn_);
         }
 
         public async Task<string> Save()
