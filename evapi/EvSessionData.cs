@@ -1,56 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace evapi
 {
     using Dict = Dictionary<string, object>;
 
-    public class EvDocument
+    public class EvSessionData
     {
         private Connection conn_;
 
-        public string Id { get; private set; }
-
-        internal EvDocument(string id, Connection conn)
+        internal EvSessionData(Connection conn)
         {
             conn_ = conn;
-            Id = id;
         }
 
-        public async Task<string> GetName()
+        public async Task Set(string key, string data)
         {
             Dict js = new Dict()
             {
                 {"type", "cmd"},
-                {"cmd", "document.name"},
+                {"cmd", "app.set_session_data"},
                 {
                     "args", new Dict()
                     {
-                        {"doc_id", Id}
+                        {"key", key },
+                        {"data", data}
+                    }
+                }
+            };
+
+            await conn_.IssueCommand(js);
+        }
+
+        public async Task<string> Get(string key)
+        {
+            Dict js = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "app.get_session_data"},
+                {
+                    "args", new Dict()
+                    {
+                        {"key", key }
                     }
                 }
             };
 
             Dict output = await conn_.IssueCommand(js);
-            return (string) output["name"];
-        }
-
-        public async Task<string> GetPath()
-        {
-            Dict js = new Dict()
-            {
-                {"type", "cmd"},
-                {"cmd", "document.path"},
-                {
-                    "args", new Dict()
-                    {
-                        {"doc_id", Id}
-                    }
-                }
-            };
-
-            Dict output = await conn_.IssueCommand(js);
-            return (string)output["path"];
+            return (string) output["data"];
         }
     }
 }

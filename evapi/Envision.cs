@@ -54,5 +54,10 @@ namespace evapi
             Dict output = await conn_.IssueCommand(js);
             return (List<string>) output["log"];
         }
+
+        public EvSessionData SessionData()
+        {
+            return new EvSessionData(conn_);
+        }
     }
 }
