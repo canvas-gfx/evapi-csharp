@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace evapi
 {
@@ -16,7 +14,7 @@ namespace evapi
             conn_ = conn;
         }
 
-        public async Task Set(string key, string data)
+        public void Set(string key, string data)
         {
             Dict js = new Dict()
             {
@@ -31,10 +29,10 @@ namespace evapi
                 }
             };
 
-            await conn_.IssueCommand(js);
+            conn_.IssueCommand(js);
         }
 
-        public async Task<string> Get(string key)
+        public string Get(string key)
         {
             Dict js = new Dict()
             {
@@ -48,7 +46,7 @@ namespace evapi
                 }
             };
 
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             return (string) output["data"];
         }
     }

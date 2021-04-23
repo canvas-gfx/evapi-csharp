@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace evapi
 {
@@ -14,7 +13,7 @@ namespace evapi
             conn_ = conn;
         }
 
-        public async Task<EvObject> Insert3dModel(
+        public EvObject Insert3dModel(
             string path,
             EvPoint pos,
             EvSize size,
@@ -65,7 +64,7 @@ namespace evapi
                 {"args", args}
             };
 
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
 
             return new EvObject(new Dict()
             {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace evapi
 {
@@ -20,7 +19,7 @@ namespace evapi
 
         public Commands Commands { get; private set; }
 
-        public async Task SetEnvOptions(EnvOptions envOpt)
+        public void SetEnvOptions(EnvOptions envOpt)
         {
             Dict js = new Dict()
             {
@@ -34,10 +33,10 @@ namespace evapi
                 }
             };
             
-            await conn_.IssueCommand(js);
+            conn_.IssueCommand(js);
         }
 
-        public async Task<List<string>> DebugLog(int numEntries = 20)
+        public List<string> DebugLog(int numEntries = 20)
         {
             Dict js = new Dict()
             {
@@ -51,7 +50,7 @@ namespace evapi
                 }
             };
 
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             return (List<string>) output["log"];
         }
 

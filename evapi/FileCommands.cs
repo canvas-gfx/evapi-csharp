@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace evapi
 {
@@ -14,7 +13,7 @@ namespace evapi
             conn_ = conn;
         }
 
-        public async Task<EvDocument> Open(string path)
+        public EvDocument Open(string path)
         {
             Dict js = new Dict()
             {
@@ -28,12 +27,12 @@ namespace evapi
                 }
             };
 
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             string id = (string) Convert.ToDictionary(output["doc"])["id"];
             return new EvDocument(id, conn_);
         }
 
-        public async Task<string> Save()
+        public string Save()
         {
             Dict js = new Dict()
             {
@@ -46,11 +45,11 @@ namespace evapi
                 }
             };
             
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             return (string)output["path"];
         }
 
-        public async Task<string> FileSaveAs(string path)
+        public string FileSaveAs(string path)
         {
             Dict js = new Dict()
             {
@@ -64,11 +63,11 @@ namespace evapi
                 }
             };
 
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             return (string)output["path"];
         }
 
-        public async Task<string> FileExport(string path, EvExportOptions options)
+        public string FileExport(string path, EvExportOptions options)
         {
             Dict js = new Dict()
             {
@@ -95,7 +94,7 @@ namespace evapi
                 }
             };
             
-            Dict output = await conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(js);
             return (string)output["path"];
         }
     }
