@@ -13,6 +13,37 @@ namespace evapi
             conn_ = conn;
         }
 
+        public EvDocument New(EvSize size)
+        {
+            // Prepare arguments.
+            Dict args = new Dict();
+            if (size != null)
+            {
+                args.Add("size", new Dict()
+                {
+                    {"w", size.W},
+                    {"h", size.H}
+                });
+            }
+
+            // Prepare command.
+            Dict js = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "file.new"},
+            };
+            if (args.Count > 0)
+                js.Add("args", args);
+
+            // Issue command.
+            Dict output = conn_.IssueCommand(js);
+
+            // Process output.
+            string id = (string)Convert.ToDictionary(output["doc"])["id"];
+
+            return new EvDocument(id, conn_);
+        }
+
         public EvDocument Open(string path)
         {
             Dict js = new Dict()
