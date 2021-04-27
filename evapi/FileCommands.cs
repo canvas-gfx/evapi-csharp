@@ -80,7 +80,7 @@ namespace evapi
             return (string)output["path"];
         }
 
-        public string FileSaveAs(string path)
+        public string SaveAs(string path)
         {
             Dict js = new Dict()
             {
@@ -98,7 +98,7 @@ namespace evapi
             return (string)output["path"];
         }
 
-        public string FileExport(string path, EvExportOptions options)
+        public string Export(string path, EvExportOptions options)
         {
             Dict js = new Dict()
             {
