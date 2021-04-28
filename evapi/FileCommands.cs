@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace evapi
 {
@@ -13,7 +14,7 @@ namespace evapi
             conn_ = conn;
         }
 
-        public EvDocument New(EvSize size)
+        public EvDocument New([Optional] EvSize size)
         {
             // Prepare arguments.
             Dict args = new Dict();
@@ -27,16 +28,16 @@ namespace evapi
             }
 
             // Prepare command.
-            Dict js = new Dict()
+            Dict cmd = new Dict()
             {
                 {"type", "cmd"},
                 {"cmd", "file.new"},
             };
             if (args.Count > 0)
-                js.Add("args", args);
+                cmd.Add("args", args);
 
             // Issue command.
-            Dict output = conn_.IssueCommand(js);
+            Dict output = conn_.IssueCommand(cmd);
 
             // Process output.
             string id = (string)Convert.ToDictionary(output["doc"])["id"];
@@ -98,34 +99,36 @@ namespace evapi
             return (string)output["path"];
         }
 
-        public string Export(string path, EvExportOptions options)
+        public string Export(string path, [Optional] EvExportOptions options)
         {
-            Dict js = new Dict()
+            // Prepare arguments.
+            Dict args = new Dict();
+            args.Add("path", path);
+            if (options != null)
+            {
+                args.Add("options", new Dict()
+                {
+                    {"range", options.PageRange},
+                    {"skip_hidden_pages", options.SkipHiddenPages},
+                    {"use_objects_bounds", options.UseObjectBounds},
+                    {"create_folder", options.CreateFolder},
+                    {"resolution", options.Resolution},
+                    {"color_mode", options.ColorMode},
+                    {"interpolation", options.Interpolation},
+                    {"anti_alias", options.AntiAlias}
+                });
+            }
+
+            // Prepare command.
+            Dict cmd = new Dict()
             {
                 {"type", "cmd"},
                 {"cmd", "file.export"},
-                {
-                    "args", new Dict()
-                    {
-                        {"path", path},
-                        {
-                            "options", new Dict()
-                            {
-                                {"range", options.PageRange},
-                                {"skip_hidden_pages", options.SkipHiddenPages},
-                                {"use_objects_bounds", options.UseObjectBounds},
-                                {"create_folder", options.CreateFolder},
-                                {"resolution", options.Resolution},
-                                {"color_mode", options.ColorMode},
-                                {"interpolation", options.Interpolation},
-                                {"anti_alias", options.AntiAlias}
-                            }
-                        }
-                    }
-                }
             };
-            
-            Dict output = conn_.IssueCommand(js);
+            if (args.Count > 0)
+                cmd.Add("args", args);
+
+            Dict output = conn_.IssueCommand(cmd);
             return (string)output["path"];
         }
     }
