@@ -14,10 +14,14 @@ namespace evapi
             conn_ = conn;
         }
 
-        public EvDocument New([Optional] EvSize size)
+        public EvDocument New([Optional] string name, [Optional] EvSize size)
         {
             // Prepare arguments.
             Dict args = new Dict();
+
+            if (name != null)
+                args.Add("name", name);
+
             if (size != null)
             {
                 args.Add("size", new Dict()
