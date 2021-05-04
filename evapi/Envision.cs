@@ -19,6 +19,20 @@ namespace evapi
 
         public Commands Commands { get; private set; }
 
+        public EvDocument CurrentDoc()
+        {
+            Dict js = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "app.current_doc"}
+            };
+
+            Dict output = conn_.IssueCommand(js);
+
+            string id = (string)Convert.ToDictionary(output["doc"])["id"];
+            return new EvDocument(id, conn_);
+        }
+
         public void SetEnvOptions(EnvOptions envOpt)
         {
             Dict js = new Dict()
