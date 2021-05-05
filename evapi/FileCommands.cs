@@ -135,5 +135,16 @@ namespace evapi
             Dict output = conn_.IssueCommand(cmd);
             return (string)output["path"];
         }
+
+        public void Close()
+        {
+            Dict cmd = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "file.close"}
+            };
+
+            conn_.IssueCommand(cmd);
+        }
     }
 }
