@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace evapi
 {
@@ -71,6 +72,61 @@ namespace evapi
         public EvSessionData SessionData()
         {
             return new EvSessionData(conn_);
+        }
+
+        public List<EvPluginUiState> GetPluginsUiState()
+        {
+            Dict cmd = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "app.get_plugins_ui_state"}
+            };
+
+            Dict output = conn_.IssueCommand(cmd);
+
+            // Convert output.
+            var states = new List<EvPluginUiState>();
+            JArray jStates = (JArray)output["states"];
+            foreach (var jState in jStates)
+            {
+                states.Add(new EvPluginUiState {
+                    PluginId = (int)jState["plugin_id"],
+                    Enabled = (bool)jState["enabled"],
+                    Visible = (bool)jState["visible"],
+                });
+            }
+            return states;
+        }
+
+        public void SetPluginsUiState(List<EvPluginUiState> states)
+        {
+            // Prepare arguments.
+            var jStates = new List<Dict>();
+            foreach (var state in states)
+            {
+                jStates.Add(new Dict
+                {
+                    { "plugin_id", state.PluginId},
+                    { "enabled", state.Enabled},
+                    { "visible", state.Visible}
+                });
+            }
+
+            var args = new Dict()
+            {
+                { "states", jStates }
+            };
+
+            // Prepare command.
+            Dict cmd = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "app.set_plugins_ui_state"},
+                {"args", args}
+            };
+
+            // Issue command.
+            conn_.IssueCommand(cmd);
         }
     }
 }
