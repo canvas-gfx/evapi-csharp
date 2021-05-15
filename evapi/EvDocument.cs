@@ -6,13 +6,13 @@ namespace evapi
 
     public class EvDocument
     {
-        private Connection conn_;
+        private Connection _conn;
 
-        public string Id { get; private set; }
+        public string Id { get; }
 
         internal EvDocument(string id, Connection conn)
         {
-            conn_ = conn;
+            _conn = conn;
             Id = id;
         }
 
@@ -30,7 +30,7 @@ namespace evapi
                 }
             };
 
-            Dict output = conn_.IssueCommand(js);
+            Dict output = _conn.IssueCommand(js);
             return (string) output["name"];
         }
 
@@ -48,7 +48,7 @@ namespace evapi
                 }
             };
 
-            Dict output = conn_.IssueCommand(js);
+            Dict output = _conn.IssueCommand(js);
             return (string)output["path"];
         }
     }

@@ -193,21 +193,6 @@ namespace evapi
         public static EvUnit Px => new EvUnit("px");
     }
 
-    public class EvObject
-    {
-        private readonly Dict _data;
-
-        public EvObject(Dict data)
-        {
-            _data = data;
-        }
-
-        public int GetId()
-        {
-            return (int) _data["id"];
-        }
-    }
-
     public class EvInsert3DModelOptions
     {
         public EvTesselationQuality TesselationQuality { get; set; }

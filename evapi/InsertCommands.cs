@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace evapi
 {
@@ -6,70 +7,79 @@ namespace evapi
  
     public class InsertCommands
     {
-        private Connection conn_;
+        private Connection _conn;
 
         public InsertCommands(Connection conn)
         {
-            conn_ = conn;
+            _conn = conn;
         }
 
         public EvObject Insert3dModel(
             string path,
-            EvPoint pos,
-            EvSize size,
-            EvInsert3DModelOptions options,
-            List<string> configurations,
-            EnvOptions envOpt = null)
+            [Optional] EvPoint pos,
+            [Optional] EvSize size,
+            [Optional] EvInsert3DModelOptions options,
+            [Optional] List<string> configurations,
+            [Optional] EnvOptions envOpt)
         {
-            Dict args = new Dict()
+            // Prepare arguments.
+            Dict args = new Dict();
+            args.Add("path", path);
+
+            if (pos != null)
             {
-                {"path", path},
+                args.Add("pos", new Dict()
                 {
-                    "pos", new Dict()
-                    {
-                        {"x", pos.X},
-                        {"y", pos.Y}
-                    }
-                },
+                    {"x", pos.X},
+                    {"y", pos.Y}
+                });
+            }
+
+            if (pos != null)
+            {
+                args.Add("size", new Dict()
                 {
-                    "size", new Dict()
-                    {
-                        {"w", size.W},
-                        {"h", size.H}
-                    }
-                },
+                    {"w", size.W},
+                    {"h", size.H}
+                });
+            }
+
+            if (options != null)
+            {
+                args.Add("options", new Dict()
                 {
-                    "options", new Dict()
-                    {
-                        {"tesselation_quality", options.TesselationQuality},
-                        {"use_brep", options.UseBrep},
-                        {"fit_to_page", options.FitToPage}
-                    }
-                },
-                {"configurations", configurations}
-            };
+                    {"tesselation_quality", options.TesselationQuality},
+                    {"use_brep", options.UseBrep},
+                    {"fit_to_page", options.FitToPage}
+                });
+            }
+
+            if (configurations != null)
+                args.Add("configurations", configurations);
 
             if (envOpt != null)
             {
-                args["env_opt"] = new Dict()
+                args.Add("env_opt", new Dict()
                 {
                     {"units", envOpt.Units}
-                };
+                });
             }
 
-            Dict js = new Dict()
+            // Prepare command.
+            Dict cmd = new Dict()
             {
                 {"type", "cmd"},
                 {"cmd", "insert.3d_model"},
                 {"args", args}
             };
 
-            Dict output = conn_.IssueCommand(js);
+            // Issue command.
+            Dict output = _conn.IssueCommand(cmd);
 
-            return new EvObject(new Dict()
-            {
-                {"id", (string) output["obj"]}
-            });
+            // Process output.
+            string id = (string)Convert.ToDictionary(output["obj"])["id"];
+
+            return new EvObject(id, _conn);
         }
     }
 }
