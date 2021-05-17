@@ -81,5 +81,58 @@ namespace evapi
 
             return new EvObject(id, _conn);
         }
+
+        public EvObject InsertImage(
+            string path,
+            [Optional] EvPoint pos,
+            [Optional] EvSize size,
+            [Optional] EnvOptions envOpt)
+        {
+            // Prepare arguments.
+            Dict args = new Dict();
+            args.Add("path", path);
+
+            if (pos != null)
+            {
+                args.Add("pos", new Dict()
+                {
+                    {"x", pos.X},
+                    {"y", pos.Y}
+                });
+            }
+
+            if (pos != null)
+            {
+                args.Add("size", new Dict()
+                {
+                    {"w", size.W},
+                    {"h", size.H}
+                });
+            }
+
+            if (envOpt != null)
+            {
+                args.Add("env_opt", new Dict()
+                {
+                    {"units", envOpt.Units}
+                });
+            }
+
+            // Prepare command.
+            Dict cmd = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "insert.image"},
+                {"args", args}
+            };
+
+            // Issue command.
+            Dict output = _conn.IssueCommand(cmd);
+
+            // Process output.
+            string id = (string)Convert.ToDictionary(output["obj"])["id"];
+
+            return new EvObject(id, _conn);
+        }
     }
 }
