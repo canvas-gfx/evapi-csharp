@@ -16,7 +16,7 @@ namespace evapi
             Id = id;
         }
 
-        Ev3DModel As3DModel()
+        public Ev3DModel As3DModel()
         {
             // Todo - Add object type checking once evapi supports it. For now the call
             //        will always succeed but commands of converted type will fail, if
