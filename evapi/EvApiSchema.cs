@@ -193,13 +193,13 @@ namespace evapi
         public static EvUnit Px => new EvUnit("px");
     }
 
-    public class EvInsert3DModelOptions
+    public class Ev3DModelImportOptions
     {
         public EvTesselationQuality TesselationQuality { get; set; }
         public bool UseBrep { get; set; }
         public bool FitToPage { get; set; }
 
-        public EvInsert3DModelOptions(
+        public Ev3DModelImportOptions(
             EvTesselationQuality tesselationQuality = null,
             bool useBrep = true,
             bool fitToPage = true)

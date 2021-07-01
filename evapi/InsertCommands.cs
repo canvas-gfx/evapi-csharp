@@ -18,7 +18,7 @@ namespace evapi
             string path,
             [Optional] EvPoint pos,
             [Optional] EvSize size,
-            [Optional] EvInsert3DModelOptions options,
+            [Optional] Ev3DModelImportOptions options,
             [Optional] List<string> configurations,
             [Optional] EnvOptions envOpt)
         {

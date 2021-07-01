@@ -12,7 +12,7 @@ namespace evapi
         {
         }
 
-        public void Update(string path, [Optional] EvInsert3DModelOptions options)
+        public void Update(string path, [Optional] Ev3DModelImportOptions options)
         {
             // Prepare arguments.
             Dict args = new Dict();
