@@ -67,7 +67,7 @@ namespace evapi
             };
 
             Dict output = _conn.IssueCommand(cmd);
-            return (int)output["count"];
+            return (int)(long)output["count"];
         }
 
         public EvObject GetObject(int idx)

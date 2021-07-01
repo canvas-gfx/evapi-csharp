@@ -6,14 +6,22 @@ namespace evapi
 
     public class EvObject
     {
-        private Connection _conn;
+        protected Connection _conn;
 
         public string Id { get; }
         
-        internal EvObject(string id, Connection conn)
+        public EvObject(string id, Connection conn)
         {
             _conn = conn;
             Id = id;
+        }
+
+        Ev3DModel As3DModel()
+        {
+            // Todo - Add object type checking once evapi supports it. For now the call
+            //        will always succeed but commands of converted type will fail, if
+            //        the internal type doesn't match.
+            return new Ev3DModel(Id, _conn);
         }
 
         public string Property(string name)

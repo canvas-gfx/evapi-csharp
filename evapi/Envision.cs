@@ -17,6 +17,7 @@ namespace evapi
 
         public string Host { get { return conn_.Host; } private set { } }
         public int Port { get { return conn_.Port; } private set { } }
+        public Connection Connection { get { return conn_; } private set { } }
 
         public Commands Commands { get; private set; }
 
