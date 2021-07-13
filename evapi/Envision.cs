@@ -48,7 +48,7 @@ namespace evapi
                     }
                 }
             };
-            
+
             conn_.IssueCommand(js);
         }
 
@@ -67,7 +67,7 @@ namespace evapi
             };
 
             Dict output = conn_.IssueCommand(js);
-            return (List<string>) output["log"];
+            return (List<string>)output["log"];
         }
 
         public EvSessionData SessionData()
@@ -90,7 +90,8 @@ namespace evapi
             JArray jStates = (JArray)output["states"];
             foreach (var jState in jStates)
             {
-                states.Add(new EvPluginUiState {
+                states.Add(new EvPluginUiState
+                {
                     PluginId = (int)jState["plugin_id"],
                     Enabled = (bool)jState["enabled"],
                     Visible = (bool)jState["visible"],
@@ -128,6 +129,19 @@ namespace evapi
 
             // Issue command.
             conn_.IssueCommand(cmd);
+        }
+
+        public string Version()
+        {
+            Dict cmd = new Dict()
+            {
+                {"type", "cmd"},
+                {"cmd", "app.version"}
+            };
+
+            Dict output = conn_.IssueCommand(cmd);
+
+            return (string)output["version"];
         }
     }
 }
